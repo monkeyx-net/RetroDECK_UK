@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvdgrhu7v3bxb"]
+
+[ext_resource type="Theme" uid="uid://c7m5esaj7s5fm" path="res://test_theme.tres" id="1_duvgf"]
+[ext_resource type="FontFile" uid="uid://cmqkbqp753qs5" path="res://assets/fonts/akrobat/Akrobat-Bold.otf" id="1_werng"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw4r6"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_duvgf")
+theme_override_fonts/font = ExtResource("1_werng")
+theme_override_font_sizes/font_size = 36
+clip_tabs = false
+
+[node name="CONFIG" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/CONFIG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/CONFIG/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="TabContainer/CONFIG/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 64)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_selected_color = Color(0.349109, 0.0142411, 0.295927, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_vw4r6")
+item_count = 5
+item_0/text = "PRESETS &  SETTINGS"
+item_1/text = "OPEN EMULATOR"
+item_2/text = "RetroDECK: TOOLS"
+item_3/text = "DEVELOPER OPTIONS"
+item_4/text = "RetroDECK: ABOUT"
+
+[node name="WORK SCREEN" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
