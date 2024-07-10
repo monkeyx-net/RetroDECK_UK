@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cvdgrhu7v3bxb"]
 
-[ext_resource type="Theme" uid="uid://c7m5esaj7s5fm" path="res://test_theme.tres" id="1_duvgf"]
-[ext_resource type="FontFile" uid="uid://cmqkbqp753qs5" path="res://assets/fonts/akrobat/Akrobat-Bold.otf" id="1_werng"]
+[ext_resource type="Theme" uid="uid://b82mjw53488jd" path="res://themes/pixel_theme.tres" id="1_85rhp"]
+[ext_resource type="Script" path="res://main.gd" id="1_lcrip"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw4r6"]
 bg_color = Color(0, 0, 0, 1)
@@ -11,40 +11,67 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = 6.0
+offset_right = -1.0
+offset_bottom = -379.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_85rhp")
+script = ExtResource("1_lcrip")
 
-[node name="TabContainer" type="TabContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_duvgf")
-theme_override_fonts/font = ExtResource("1_werng")
-theme_override_font_sizes/font_size = 36
-clip_tabs = false
-
-[node name="CONFIG" type="TabBar" parent="TabContainer"]
+[node name="Main_TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/CONFIG"]
-layout_mode = 1
-anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_bottom = 0.380228
+offset_bottom = -39.0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 42
+current_tab = 1
+clip_tabs = false
+drag_to_rearrange_enabled = true
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/CONFIG/ScrollContainer"]
+[node name="CONFIG" type="TabBar" parent="Main_TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="ThemeOptionButton" type="OptionButton" parent="Main_TabContainer/CONFIG"]
+layout_mode = 2
+anchor_left = 0.05
+anchor_right = 0.05
+offset_left = -44.7
+offset_top = 310.0
+offset_right = 236.3
+offset_bottom = 354.0
+item_count = 4
+selected = 0
+popup/item_0/text = "CHANGE FONT"
+popup/item_0/id = 3
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "Pixel Font"
+popup/item_1/id = 0
+popup/item_2/text = "Akrobat Font"
+popup/item_2/id = 1
+popup/item_3/text = "OpenDyslexic Font"
+popup/item_3/id = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/CONFIG"]
+custom_minimum_size = Vector2(0, 275)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main_TabContainer/CONFIG/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="TabContainer/CONFIG/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 64)
+[node name="ItemList" type="ItemList" parent="Main_TabContainer/CONFIG/ScrollContainer/VBoxContainer"]
+clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_selected_color = Color(0.349109, 0.0142411, 0.295927, 1)
@@ -57,6 +84,84 @@ item_2/text = "RetroDECK: TOOLS"
 item_3/text = "DEVELOPER OPTIONS"
 item_4/text = "RetroDECK: ABOUT"
 
-[node name="WORK SCREEN" type="TabBar" parent="TabContainer"]
-visible = false
+[node name="SETTINGS" type="TabBar" parent="Main_TabContainer"]
 layout_mode = 2
+tab_count = 2
+drag_to_rearrange_enabled = true
+tab_0/title = "OPEN EMULATOR"
+tab_1/title = "RESET EMULATOR"
+
+[node name="OptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS"]
+layout_mode = 2
+anchor_left = 0.0814558
+anchor_top = 1.45455
+anchor_right = 0.237435
+anchor_bottom = 2.45455
+offset_right = 1.52588e-05
+grow_horizontal = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "RETROARCH"
+popup/item_0/id = 1
+popup/item_1/text = "MAME"
+popup/item_1/id = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="EmulatorButton" type="Button" parent="Main_TabContainer/SETTINGS/OptionButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.07222
+anchor_top = 0.0227273
+anchor_right = 1.42222
+anchor_bottom = 1.09091
+offset_left = -1.52588e-05
+text = "OK"
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00433276
+anchor_top = 3.86364
+anchor_right = 0.997
+anchor_bottom = 12.25
+offset_top = -18.0
+offset_right = 0.461914
+offset_bottom = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DisplayRichTextLabel" type="RichTextLabel" parent="Main_TabContainer/SETTINGS/ScrollContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Command results appear here. Copy and Paste etc"
+focus_mode = 2
+text = "..."
+fit_content = true
+scroll_following = true
+autowrap_mode = 0
+context_menu_enabled = true
+selection_enabled = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CommandExitLabel" type="Label" parent="Main_TabContainer/SETTINGS"]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 65.0
+offset_right = 727.0
+offset_bottom = 123.0
+text = "Exit Code:"
+
+[node name="CommandButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
+layout_mode = 0
+offset_left = 286.0
+offset_top = -6.0
+offset_right = 485.0
+offset_bottom = 50.0
+text = "Test Command"
+
+[connection signal="item_selected" from="Main_TabContainer/CONFIG/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
+[connection signal="pressed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
+[connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]

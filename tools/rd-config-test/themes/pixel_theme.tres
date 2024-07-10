@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b82mjw53488jd"]
+
+[ext_resource type="FontFile" uid="uid://q405aelgnmvo" path="res://assets/fonts/munro/munro.ttf" id="1_e0jya"]
+
+[resource]
+default_font = ExtResource("1_e0jya")
+default_font_size = 32
