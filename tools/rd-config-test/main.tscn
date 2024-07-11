@@ -118,6 +118,11 @@ offset_left = -1.52588e-05
 text = "OK"
 metadata/_edit_use_anchors_ = true
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton"]
+title = "Here Be Dragons ... Are you sure?"
+initial_position = 1
+size = Vector2i(515, 106)
+
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
 anchors_preset = -1
