@@ -10,6 +10,13 @@ func _ready():
 	var file_path = "../../tools/configurator.sh"
 	var emulator_list = get_emulator_list_from_system_path(file_path)
 	print(emulator_list)
+		
+func _thread():
+	var output = []
+	var err: int = OS.execute("find", ["$HOME/", "-name", "es_systems.xml","-print"], output, false)
+	if err != 0:
+		print("Error occurred: %d" % err)	
+	return array_to_string(output)
 
 func get_emulator_list_from_system_path(file_path: String):
 	var output = []
@@ -45,12 +52,11 @@ func _on_command_button_pressed():
 	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
 	$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
 
-
 # Execute an OS  command with parameters.
 # This should be looked at again when GoDot 4.3 ships as has new OS.execute_with_pipe
-func execute_command(command: String, params: Array, blocking: bool) -> Dictionary:
+func execute_command(command: String, params: Array, console: bool) -> Dictionary:
 	var output = []
-	var exit_code = OS.execute(command, params, output, blocking)
+	var exit_code = OS.execute(command, params, output, console)
 	# Check for errors
 	output = array_to_string(output)
 	
@@ -86,11 +92,24 @@ func _on_option_button_font_item_selected(index):
 func array_to_string(arr: Array) -> String:
 	var text = ""
 	for line in arr:
-		text += line + "\n" #String(line)
+		text += line + "\n"
 	return text
 
 func _on_emulator_button_pressed():
 	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.visible=true
 	var something = $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
 	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text= something + $Main_TabContainer/SETTINGS/OptionButton.text + "!"
+
+func _on_thread_button_pressed():
+	var thread = Thread.new()
+	print ("THREAD START")
+	thread.start(Callable(self, "_thread"))
+	while thread.is_alive():
+		print ("tick")
+		await get_tree().process_frame
+	var output = thread.wait_to_finish()
+	#print(output)
+	print ("THREAD END")
+	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = output
+	thread = null
 

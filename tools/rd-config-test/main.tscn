@@ -167,6 +167,15 @@ offset_right = 485.0
 offset_bottom = 50.0
 text = "Test Command"
 
+[node name="ThreadButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
+layout_mode = 0
+offset_left = 497.0
+offset_top = -9.0
+offset_right = 704.0
+offset_bottom = 51.0
+text = "Test Thread"
+
 [connection signal="item_selected" from="Main_TabContainer/CONFIG/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]
+[connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/ThreadButton" to="." method="_on_thread_button_pressed"]
