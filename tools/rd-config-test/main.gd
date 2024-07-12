@@ -6,17 +6,25 @@ extends Control
 	# Some Godot variables there already
 	# basic log function to show what actions have been taken and what scripts run.
 
+
 func _ready():
 	var file_path = "../../tools/configurator.sh"
 	var emulator_list = get_emulator_list_from_system_path(file_path)
 	print(emulator_list)
 		
-func _thread():
-	var output = []
-	var err: int = OS.execute("find", ["$HOME/", "-name", "es_systems.xml","-print"], output, false)
-	if err != 0:
-		print("Error occurred: %d" % err)	
-	return array_to_string(output)
+#func threads(cmd: String, params: Array):
+func cmd_thread():
+	#var output = []
+	#var err: int = OS.execute("find", ["$HOME/", "-name", "es_systems.xml","-print"], output, false)
+	#if err != 0:
+	#	print("Error occurred: %d" % err)	
+	#return array_to_string(output)
+	var cmd = "find"
+	var params = ["$HOME/", "-name", "es_systems.xml","-print"]
+	print (cmd ,params)
+	var result = execute_command(cmd, params, false)
+	return result
+	
 
 func get_emulator_list_from_system_path(file_path: String):
 	var output = []
@@ -43,10 +51,10 @@ func parse_emulator_list(content: String) -> Dictionary:
 	return emulator_dict
 
 func _on_command_button_pressed():
-	#var command = "ls"
-	#var parameters = ["-ltr", "/tmp"]
-	var command = "find"
-	var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
+	var command = "ls"
+	var parameters = ["-ltr", "/tmp"]
+	#var command = "find"
+	#var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)
 	var result = execute_command(command, parameters, false)
 	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
@@ -101,15 +109,20 @@ func _on_emulator_button_pressed():
 	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text= something + $Main_TabContainer/SETTINGS/OptionButton.text + "!"
 
 func _on_thread_button_pressed():
+	var command = "find"
+	var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
 	var thread = Thread.new()
 	print ("THREAD START")
-	thread.start(Callable(self, "_thread"))
+	thread.start(Callable(self, "cmd_thread"))
+	#thread.start(thread.bin)
 	while thread.is_alive():
 		print ("tick")
 		await get_tree().process_frame
-	var output = thread.wait_to_finish()
-	#print(output)
+	var result = thread.wait_to_finish()
+	#print(result)
 	print ("THREAD END")
-	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = output
+	# add check if array/dict null
+	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
+	$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
 	thread = null
 
