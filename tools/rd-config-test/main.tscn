@@ -121,9 +121,10 @@ text = "OK"
 metadata/_edit_use_anchors_ = true
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton"]
-title = "Here Be Dragons ... Are you sure?"
+title = "Here Be Dragons ..."
 initial_position = 1
-size = Vector2i(515, 106)
+size = Vector2i(755, 106)
+dialog_text = "ARE YOUS SURE!"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
@@ -141,7 +142,6 @@ grow_vertical = 2
 [node name="DisplayRichTextLabel" type="RichTextLabel" parent="Main_TabContainer/SETTINGS/ScrollContainer"]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Command results appear here. Copy and Paste etc"
 focus_mode = 2

@@ -6,25 +6,14 @@ extends Control
 	# Some Godot variables there already
 	# basic log function to show what actions have been taken and what scripts run.
 
-
 func _ready():
 	var file_path = "../../tools/configurator.sh"
 	var emulator_list = get_emulator_list_from_system_path(file_path)
 	print(emulator_list)
-		
-#func threads(cmd: String, params: Array):
-func cmd_thread():
-	#var output = []
-	#var err: int = OS.execute("find", ["$HOME/", "-name", "es_systems.xml","-print"], output, false)
-	#if err != 0:
-	#	print("Error occurred: %d" % err)	
-	#return array_to_string(output)
-	var cmd = "find"
-	var params = ["$HOME/", "-name", "es_systems.xml","-print"]
+func cmd_thread(cmd: String, params: Array):
 	print (cmd ,params)
-	var result = execute_command(cmd, params, false)
-	return result
-	
+	var results = execute_command(cmd, params, false)
+	return results	
 
 func get_emulator_list_from_system_path(file_path: String):
 	var output = []
@@ -57,10 +46,10 @@ func _on_command_button_pressed():
 	#var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)
 	var result = execute_command(command, parameters, false)
-	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
-	$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
+	if result != null:
+		$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
+		$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
 
-# Execute an OS  command with parameters.
 # This should be looked at again when GoDot 4.3 ships as has new OS.execute_with_pipe
 func execute_command(command: String, params: Array, console: bool) -> Dictionary:
 	var output = []
@@ -113,16 +102,18 @@ func _on_thread_button_pressed():
 	var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
 	var thread = Thread.new()
 	print ("THREAD START")
-	thread.start(Callable(self, "cmd_thread"))
-	#thread.start(thread.bin)
+	#thread.start(Callable(self, "cmd_thread"))
+	#thread.start(Callable(cmd_thread.bind(command,parameters)))
+	thread.start(cmd_thread.bind(command,parameters))
 	while thread.is_alive():
-		print ("tick")
+		#print ("tick")
 		await get_tree().process_frame
 	var result = thread.wait_to_finish()
+	thread = null
 	#print(result)
 	print ("THREAD END")
-	# add check if array/dict null
-	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
-	$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
-	thread = null
+	if result != null:
+		$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
+		$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + result["exit_code"]
+
 
