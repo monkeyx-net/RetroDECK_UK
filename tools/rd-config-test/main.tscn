@@ -10,13 +10,12 @@ bg_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -3.0
 offset_top = 6.0
-offset_right = -1.0
-offset_bottom = -379.0
+offset_right = 6.0
+offset_bottom = -424.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_85rhp")
@@ -124,7 +123,8 @@ metadata/_edit_use_anchors_ = true
 title = "Here Be Dragons ..."
 initial_position = 1
 size = Vector2i(755, 106)
-dialog_text = "ARE YOUS SURE!"
+dialog_text = "RETURN SELECTED VALUE HERE
+ARE YOUS SURE!"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
@@ -178,7 +178,7 @@ offset_bottom = 51.0
 text = "Test Thread"
 
 [node name="Retrodeck" type="Sprite2D" parent="."]
-position = Vector2(1066, 54)
+position = Vector2(1209, 718)
 scale = Vector2(0.214844, 0.197266)
 texture = ExtResource("3_h44dm")
 script = ExtResource("4_vatdb")

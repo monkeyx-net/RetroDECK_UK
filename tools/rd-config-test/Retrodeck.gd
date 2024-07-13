@@ -8,7 +8,7 @@ const SCALE_SPEED = 0.5
 
 var scale_direction = 1.0
 
-func _process(delta):
+func _process(delta) -> void:
 	# Rotate the sprite
 	rotation_degrees += rotation_speed * delta
 	var new_scale = scale + Vector2(scale_direction, scale_direction) * SCALE_SPEED * delta

@@ -6,16 +6,16 @@ extends Control
 	# Some Godot variables there already
 	# basic log function to show what actions have been taken and what scripts run.
 
-func _ready():
+func _ready() -> void:
 	var file_path = "../../tools/configurator.sh"
 	var emulator_list = get_emulator_list_from_system_path(file_path)
 	print(emulator_list)
-func cmd_thread(cmd: String, params: Array):
+func cmd_thread(cmd: String, params: Array) -> Dictionary:
 	print (cmd ,params)
 	var results = execute_command(cmd, params, false)
 	return results	
 
-func get_emulator_list_from_system_path(file_path: String):
+func get_emulator_list_from_system_path(file_path: String) -> Dictionary:
 	var output = []
 	var command = "sed -n '/local emulator_list=(/,/)/{s/.*local emulator_list=\\(.*\\)/\\1/; /)/q; p}' " + file_path
 	var exit_code = OS.execute("sh", ["-c", command], output, )
@@ -39,7 +39,7 @@ func parse_emulator_list(content: String) -> Dictionary:
 
 	return emulator_dict
 
-func _on_command_button_pressed():
+func _on_command_button_pressed() -> void:
 	var command = "ls"
 	var parameters = ["-ltr", "/tmp"]
 	#var command = "find"
@@ -72,19 +72,17 @@ func execute_command(command: String, params: Array, console: bool) -> Dictionar
 	}
 	
 # Select one of the pre made themes for testing(Only fonts for now)
-func _on_option_button_font_item_selected(index):
+func _on_option_button_font_item_selected(index) -> void:
 	print (index)
 	var custom_theme =""
 	match index:
 		1:
 			custom_theme = preload("res://themes/pixel_theme.tres")
-			$Main_TabContainer.theme = custom_theme
 		2:
 			custom_theme = preload("res://themes/akrobat_theme.tres")
-			$Main_TabContainer.theme = custom_theme
 		3:
 			custom_theme = preload("res://themes/dyslexia_theme.tres")
-			$Main_TabContainer.theme = custom_theme
+	$Main_TabContainer.theme = custom_theme
 
 func array_to_string(arr: Array) -> String:
 	var text = ""
@@ -92,12 +90,12 @@ func array_to_string(arr: Array) -> String:
 		text += line + "\n"
 	return text
 
-func _on_emulator_button_pressed():
+func _on_emulator_button_pressed() -> void:
 	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.visible=true
 	var something = $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
 	$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text= something + $Main_TabContainer/SETTINGS/OptionButton.text + "!"
 
-func _on_thread_button_pressed():
+func _on_thread_button_pressed() -> void:
 	var command = "find"
 	var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
 	var thread = Thread.new()
