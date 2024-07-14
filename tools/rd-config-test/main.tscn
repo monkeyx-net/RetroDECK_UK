@@ -8,8 +8,9 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw4r6"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="Control" type="Control"]
+[node name="UI_Control" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -3.0
@@ -23,72 +24,20 @@ script = ExtResource("1_lcrip")
 
 [node name="Main_TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
-anchor_right = 1.0
-anchor_bottom = 0.380228
+anchor_right = 0.996121
+anchor_bottom = 0.381081
+offset_right = -2.0
 offset_bottom = -39.0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 42
-current_tab = 1
 clip_tabs = false
 drag_to_rearrange_enabled = true
-metadata/_edit_use_anchors_ = true
-
-[node name="CONFIG" type="TabBar" parent="Main_TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="ThemeOptionButton" type="OptionButton" parent="Main_TabContainer/CONFIG"]
-layout_mode = 2
-anchor_left = 0.05
-anchor_right = 0.05
-offset_left = -44.7
-offset_top = 310.0
-offset_right = 236.3
-offset_bottom = 354.0
-item_count = 4
-selected = 0
-popup/item_0/text = "CHANGE FONT"
-popup/item_0/id = 3
-popup/item_0/disabled = true
-popup/item_0/separator = true
-popup/item_1/text = "Pixel Font"
-popup/item_1/id = 0
-popup/item_2/text = "Akrobat Font"
-popup/item_2/id = 1
-popup/item_3/text = "OpenDyslexic Font"
-popup/item_3/id = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/CONFIG"]
-custom_minimum_size = Vector2(0, 275)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 8.0
-grow_horizontal = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Main_TabContainer/CONFIG/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ItemList" type="ItemList" parent="Main_TabContainer/CONFIG/ScrollContainer/VBoxContainer"]
-clip_contents = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_selected_color = Color(0.349109, 0.0142411, 0.295927, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/selected_focus = SubResource("StyleBoxFlat_vw4r6")
-item_count = 5
-item_0/text = "PRESETS &  SETTINGS"
-item_1/text = "OPEN EMULATOR"
-item_2/text = "RetroDECK: TOOLS"
-item_3/text = "DEVELOPER OPTIONS"
-item_4/text = "RetroDECK: ABOUT"
 
 [node name="SETTINGS" type="TabBar" parent="Main_TabContainer"]
 layout_mode = 2
 tab_count = 2
 drag_to_rearrange_enabled = true
+tabs_rearrange_group = 0
 tab_0/title = "OPEN EMULATOR"
 tab_1/title = "RESET EMULATOR"
 
@@ -123,8 +72,6 @@ metadata/_edit_use_anchors_ = true
 title = "Here Be Dragons ..."
 initial_position = 1
 size = Vector2i(755, 106)
-dialog_text = "RETURN SELECTED VALUE HERE
-ARE YOUS SURE!"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
@@ -155,10 +102,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CommandExitLabel" type="Label" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 0
-offset_left = 400.0
-offset_top = 65.0
-offset_right = 727.0
-offset_bottom = 123.0
+offset_left = 235.0
+offset_top = 625.0
+offset_right = 562.0
+offset_bottom = 683.0
 text = "Exit Code:"
 
 [node name="CommandButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
@@ -177,13 +124,88 @@ offset_right = 704.0
 offset_bottom = 51.0
 text = "Test Thread"
 
+[node name="TEST TAB" type="TabBar" parent="Main_TabContainer"]
+visible = false
+layout_mode = 2
+tabs_rearrange_group = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/TEST TAB"]
+custom_minimum_size = Vector2(0, 275)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -861.0
+offset_bottom = 275.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main_TabContainer/TEST TAB/ScrollContainer"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+theme_override_colors/font_selected_color = Color(0.349109, 0.0142411, 0.295927, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_vw4r6")
+item_count = 4
+item_0/text = "THEME"
+item_1/text = "PRESETS &  SETTINGS"
+item_2/text = "OPEN EMULATOR"
+item_3/text = "RetroDECK: ABOUT"
+
+[node name="LIne1OptionButton" type="OptionButton" parent="Main_TabContainer/TEST TAB"]
+visible = false
+layout_mode = 2
+offset_left = 429.0
+offset_top = -7.0
+offset_right = 1277.0
+offset_bottom = 48.0
+item_count = 3
+selected = 0
+popup/item_0/text = "SET PRESETS"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "RETRODECK PRESETS"
+popup/item_1/id = 1
+popup/item_2/text = "MAME PRESETS"
+popup/item_2/id = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main_TabContainer/TEST TAB"]
+layout_mode = 0
+offset_left = 432.0
+offset_right = 775.0
+offset_bottom = 272.0
+
+[node name="ThemeOptionButton" type="OptionButton" parent="Main_TabContainer/TEST TAB/VBoxContainer"]
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "CHANGE FONT"
+popup/item_0/id = 3
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "Pixel Font"
+popup/item_1/id = 0
+popup/item_2/text = "Akrobat Font"
+popup/item_2/id = 1
+popup/item_3/text = "OpenDyslexic Font"
+popup/item_3/id = 2
+
+[node name="Button" type="Button" parent="Main_TabContainer/TEST TAB/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+alignment = 0
+
 [node name="Retrodeck" type="Sprite2D" parent="."]
 position = Vector2(1209, 718)
 scale = Vector2(0.214844, 0.197266)
 texture = ExtResource("3_h44dm")
 script = ExtResource("4_vatdb")
 
-[connection signal="item_selected" from="Main_TabContainer/CONFIG/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/ThreadButton" to="." method="_on_thread_button_pressed"]
+[connection signal="item_selected" from="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="item_selected" from="Main_TabContainer/TEST TAB/VBoxContainer/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
