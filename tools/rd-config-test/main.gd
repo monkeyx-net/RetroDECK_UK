@@ -13,31 +13,16 @@ func _ready() -> void:
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
 	var file_path = "../../tools/configurator.sh"
-	var emulator_list = get_emulator_list_from_system_path(file_path)
+	var command = "sed -n '/local emulator_list=(/,/)/{s/.*local emulator_list=\\(.*\\)/\\1/; /)/q; p}' "
+	var emulator_list = classFunctions.get_text_file_from_system_path(file_path,command)
 	print(emulator_list)
 
-func get_emulator_list_from_system_path(file_path: String) -> Dictionary:
-	var output = []
-	var command = "sed -n '/local emulator_list=(/,/)/{s/.*local emulator_list=\\(.*\\)/\\1/; /)/q; p}' " + file_path
-	var exit_code = OS.execute("sh", ["-c", command], output, )
-	if exit_code == 0:  
-		var content = classFunctions.array_to_string(output)
-		return parse_emulator_list(content)
-	else:
-		print("Error reading file: ", exit_code)
-		return {}
-
-func parse_emulator_list(content: String) -> Dictionary:
-	var emulator_dict = {}
-	var regex = RegEx.new()
-	regex.compile(r'"([^"]+)"\s*"([^"]+)"')
-	var matches = regex.search_all(content)
-	
-	for match in matches:
-		var name = match.get_string(1)
-		var description = match.get_string(2)
-		emulator_dict[name] = description
-	return emulator_dict
+func _process(delta):
+	if Input.is_action_pressed("SpaceBar"):
+		print ("pressed")
+		update_progress_bar()
+	else: 
+		$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value=0
 
 func _on_command_button_pressed() -> void:
 	var command = "ls" #"find"
@@ -64,10 +49,10 @@ func _on_option_button_font_item_selected(index) -> void:
 # Make into function with string etc
 func _on_emulator_button_pressed() -> void:
 	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.visible=true
-	var something = $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
-	something += $Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text + $Main_TabContainer/SETTINGS/OptionButton.text + "!\n"
-	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something + "\nBeware ye 'all that ENTER HERE!\nReplace with csv text"
-
+	var something = "\n\n" + $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
+	something +=  $Main_TabContainer/SETTINGS/OptionButton.text + "!"
+	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
+	
 func _on_thread_button_pressed() -> void:
 	var command = "find"
 	var parameters = ["$HOME/", "-name", "es_systems.xml","-print"]
@@ -92,3 +77,14 @@ func _on_item_list_item_selected(index):
 		"PRESETS &  SETTINGS":
 			$"Main_TabContainer/TEST TAB/VBoxContainer".visible=false
 			$"Main_TabContainer/TEST TAB/LIne1OptionButton".visible=true
+
+
+func _on_confirmation_dialog_confirmed():
+	OS.execute("../../tools/retrodeck_function_wrapper.sh", ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/OptionButton.text])
+	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
+	OS.execute("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
+
+func update_progress_bar():
+	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
+	await get_tree().create_timer(1.0).timeout # wait for 1 second
+

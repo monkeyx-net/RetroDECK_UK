@@ -29,3 +29,27 @@ func run_command_in_thread(command: String, paramaters: Array, _console: bool) -
 func _threaded_command_execution(command: String, parameters: Array, console: bool) -> Dictionary:
 	var result = execute_command(command, parameters, console)
 	return result
+
+# Make this generic for command, path and naming
+func get_text_file_from_system_path(file_path: String, command: String) -> Dictionary:
+	var output = []
+	command += file_path
+	var exit_code = OS.execute("sh", ["-c", command], output)
+	if exit_code == 0:  
+		var content = array_to_string(output)
+		return parse_file_list(content)
+	else:
+		print("Error reading file: ", exit_code)
+		return {}
+
+func parse_file_list(content: String) -> Dictionary:
+	var file_dict = {}
+	var regex = RegEx.new()
+	regex.compile(r'"([^"]+)"\s*"([^"]+)"')
+	var matches = regex.search_all(content)
+	
+	for match in matches:
+		var name = match.get_string(1)
+		var description = match.get_string(2)
+		file_dict[name] = description
+	return file_dict

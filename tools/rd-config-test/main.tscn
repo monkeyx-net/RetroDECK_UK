@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvdgrhu7v3bxb"]
+[gd_scene load_steps=7 format=3 uid="uid://cvdgrhu7v3bxb"]
 
 [ext_resource type="Theme" uid="uid://b82mjw53488jd" path="res://themes/pixel_theme.tres" id="1_85rhp"]
 [ext_resource type="Script" path="res://main.gd" id="1_lcrip"]
 [ext_resource type="Texture2D" uid="uid://brf74puvpnwsd" path="res://assets/graphics/retrodeck.png" id="3_h44dm"]
 [ext_resource type="Script" path="res://Retrodeck.gd" id="4_vatdb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y4tr"]
+bg_color = Color(0, 0.729412, 0.0705882, 0.25098)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw4r6"]
 bg_color = Color(0, 0, 0, 1)
@@ -72,6 +75,13 @@ metadata/_edit_use_anchors_ = true
 title = "Here Be Dragons ..."
 initial_position = 1
 size = Vector2i(755, 106)
+
+[node name="ProgressBar" type="ProgressBar" parent="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog"]
+offset_left = 429.0
+offset_top = 6.0
+offset_right = 433.0
+offset_bottom = 46.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_3y4tr")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
@@ -205,6 +215,7 @@ texture = ExtResource("3_h44dm")
 script = ExtResource("4_vatdb")
 
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
+[connection signal="confirmed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/ThreadButton" to="." method="_on_thread_button_pressed"]
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
