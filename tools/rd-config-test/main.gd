@@ -10,6 +10,7 @@ extends Control
 var classFunctions: ClassFunctions
 
 func _ready() -> void:
+	$Main_TabContainer/SETTINGS.grab_focus()
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
 	var file_path = "../../tools/configurator.sh"
