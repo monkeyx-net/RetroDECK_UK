@@ -6,11 +6,15 @@ extends Control
 	# Some Godot variables there already
 	# basic log function to show what actions have been taken and what scripts run.
 	# Basic thread function added. More work required. Thread pool?
+@onready var image_display = $ImageDisplay
+@onready var http_request = $HTTPRequest
 
+const IMAGE_URL = "https://retroachievements.org/Badge/451988.png"
 var classFunctions: ClassFunctions
 
 func _ready() -> void:
 	$Main_TabContainer/SETTINGS.grab_focus()
+
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
 	var file_path = "../../tools/configurator.sh"
@@ -23,7 +27,7 @@ func _process(delta):
 		print ("pressed")
 		update_progress_bar()
 	else: 
-		$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value=0
+		$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value=0
 
 func _on_command_button_pressed() -> void:
 	var command = "ls" #"find"
@@ -49,10 +53,11 @@ func _on_option_button_font_item_selected(index) -> void:
 
 # Make into function with string etc
 func _on_emulator_button_pressed() -> void:
-	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.visible=true
-	var something = "\n\n" + $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
-	something +=  $Main_TabContainer/SETTINGS/OptionButton.text + "!"
-	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
+	OS.shell_open("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/retroarch/retroarch-guide/")
+	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.visible=true
+	#var something = "\n\n" + $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
+	#something +=  $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text + "!"
+	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
 	
 func _on_thread_button_pressed() -> void:
 	var command = "find"
@@ -80,12 +85,25 @@ func _on_item_list_item_selected(index):
 			$"Main_TabContainer/TEST TAB/LIne1OptionButton".visible=true
 
 
-func _on_confirmation_dialog_confirmed():
+func _on_confirmation_dialog_confirmed() -> void:
 	OS.execute("../../tools/retrodeck_function_wrapper.sh", ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/OptionButton.text])
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 	OS.execute("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 
-func update_progress_bar():
+
+func update_progress_bar() -> void:
 	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
 	await get_tree().create_timer(1.0).timeout # wait for 1 second
+
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	var image = Image.new()
+	image.load_png_from_buffer(body)
+	var texture = ImageTexture.create_from_image(image)
+	image_display.texture = texture
+	
+
+
+func _on_achieve_button_pressed():
+	http_request.request(IMAGE_URL)
 

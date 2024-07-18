@@ -44,7 +44,7 @@ tabs_rearrange_group = 0
 tab_0/title = "OPEN EMULATOR"
 tab_1/title = "RESET EMULATOR"
 
-[node name="OptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS"]
+[node name="EmulatorsOptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 2
 anchor_left = 0.0814558
 anchor_top = 1.45455
@@ -52,36 +52,61 @@ anchor_right = 0.237435
 anchor_bottom = 2.45455
 offset_right = 1.52588e-05
 grow_horizontal = 2
-item_count = 2
+item_count = 3
 selected = 0
-popup/item_0/text = "RETROARCH"
-popup/item_0/id = 1
-popup/item_1/text = "MAME"
-popup/item_1/id = 0
+popup/item_0/text = "Select Emulator"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "RETROARCH"
+popup/item_1/id = 1
+popup/item_2/text = "MAME"
+popup/item_2/id = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="EmulatorButton" type="Button" parent="Main_TabContainer/SETTINGS/OptionButton"]
+[node name="EmulatorButton" type="Button" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 1.07222
-anchor_top = 0.0227273
-anchor_right = 1.42222
-anchor_bottom = 1.09091
+anchor_left = 1.96787
+anchor_top = -0.130582
+anchor_right = 2.24073
+anchor_bottom = 1.21739
 offset_left = -1.52588e-05
+offset_top = 0.00674725
+offset_right = 0.059082
 text = "OK"
 metadata/_edit_use_anchors_ = true
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton"]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton"]
 title = "Here Be Dragons ..."
 initial_position = 1
 size = Vector2i(755, 106)
 
-[node name="ProgressBar" type="ProgressBar" parent="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog"]
+[node name="ProgressBar" type="ProgressBar" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog"]
 offset_left = 429.0
 offset_top = 6.0
 offset_right = 433.0
 offset_bottom = 46.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_3y4tr")
+
+[node name="ActionsOptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton"]
+layout_mode = 0
+offset_left = 277.0
+offset_top = -3.0
+offset_right = 462.0
+offset_bottom = 49.0
+item_count = 4
+selected = 0
+popup/item_0/text = "Pick Action"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_0/separator = true
+popup/item_1/text = "Help"
+popup/item_1/id = 1
+popup/item_2/text = "Launch"
+popup/item_2/id = 2
+popup/item_3/text = "Reset"
+popup/item_3/id = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 1
@@ -112,10 +137,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CommandExitLabel" type="Label" parent="Main_TabContainer/SETTINGS"]
 layout_mode = 0
-offset_left = 235.0
-offset_top = 625.0
-offset_right = 562.0
-offset_bottom = 683.0
+offset_left = 42.0
+offset_top = 632.0
+offset_right = 369.0
+offset_bottom = 690.0
 text = "Exit Code:"
 
 [node name="CommandButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
@@ -133,6 +158,14 @@ offset_top = -9.0
 offset_right = 704.0
 offset_bottom = 51.0
 text = "Test Thread"
+
+[node name="AchieveButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
+layout_mode = 0
+offset_left = 733.0
+offset_top = -10.0
+offset_right = 884.0
+offset_bottom = 55.0
+text = "Achieve"
 
 [node name="TEST TAB" type="TabBar" parent="Main_TabContainer"]
 visible = false
@@ -214,9 +247,23 @@ scale = Vector2(0.214844, 0.197266)
 texture = ExtResource("3_h44dm")
 script = ExtResource("4_vatdb")
 
-[connection signal="pressed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
-[connection signal="confirmed" from="Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[node name="ImageDisplay" type="TextureRect" parent="."]
+top_level = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_left = 937.0
+offset_top = 611.0
+offset_right = 1118.0
+offset_bottom = 770.0
+expand_mode = 5
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
+[connection signal="confirmed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/ThreadButton" to="." method="_on_thread_button_pressed"]
+[connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/AchieveButton" to="." method="_on_achieve_button_pressed"]
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/VBoxContainer/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
