@@ -8,8 +8,6 @@ extends Control
 	# Basic thread function added. More work required. Thread pool?
 @onready var image_display = $ImageDisplay
 @onready var http_request = $HTTPRequest
-
-const IMAGE_URL = "https://retroachievements.org/Badge/451988.png"
 var classFunctions: ClassFunctions
 
 func _ready() -> void:
@@ -71,7 +69,7 @@ func run_thread_command(command: String, parameters: Array, console: bool) -> vo
 		$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
 		$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + str(result["exit_code"])
 
-func _on_item_list_item_selected(index):
+func _on_item_list_item_selected(index) -> void:
 	match $"Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList".get_item_text(index):
 		"OPEN EMULATOR", "RetroDECK: ABOUT":
 			$"Main_TabContainer/TEST TAB/VBoxContainer".visible=false
@@ -90,20 +88,13 @@ func _on_confirmation_dialog_confirmed() -> void:
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 	OS.execute("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 
-
 func update_progress_bar() -> void:
 	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
 	await get_tree().create_timer(1.0).timeout # wait for 1 second
 
+func _on_http_request_request_completed(_result, _response_code, _headers, body) -> void:
+	image_display.texture = classFunctions.process_url_image(body)
 
-func _on_http_request_request_completed(result, response_code, headers, body):
-	var image = Image.new()
-	image.load_png_from_buffer(body)
-	var texture = ImageTexture.create_from_image(image)
-	image_display.texture = texture
-	
-
-
-func _on_achieve_button_pressed():
-	http_request.request(IMAGE_URL)
-
+func _on_achieve_button_pressed() -> void:
+	var url = "https://retroachievements.org/Badge/451988.png"
+	http_request.request(url)

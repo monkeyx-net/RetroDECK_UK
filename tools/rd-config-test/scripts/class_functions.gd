@@ -53,3 +53,9 @@ func parse_file_list(content: String) -> Dictionary:
 		var description = match.get_string(2)
 		file_dict[name] = description
 	return file_dict
+
+func process_url_image(body) -> Texture:
+	var image = Image.new()
+	image.load_png_from_buffer(body)
+	var texture = ImageTexture.create_from_image(image)
+	return texture
