@@ -8,11 +8,13 @@ extends Control
 	# Basic thread function added. More work required. Thread pool?
 @onready var image_display = $ImageDisplay
 @onready var http_request = $HTTPRequest
-var classFunctions: ClassFunctions
+@onready var classFunctions: ClassFunctions
+var command_label : Label
+var richtext_label :RichTextLabel
 
 func _ready() -> void:
 	$Main_TabContainer/SETTINGS.grab_focus()
-
+	_get_nodes()
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
 	var file_path = "../../tools/configurator.sh"
@@ -27,14 +29,19 @@ func _process(delta):
 	else: 
 		$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value=0
 
+func _get_nodes() -> void:
+	command_label = get_node("%CommandExitLabel")
+	richtext_label = get_node("%DisplayRichTextLabel")
+
 func _on_command_button_pressed() -> void:
 	var command = "ls" #"find"
 	var parameters = ["-ltr", "/tmp"] #["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)
 	var result: Dictionary = classFunctions.execute_command(command, parameters, false)
 	if result != null:
-		$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
-		$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + str(result["exit_code"])
+		richtext_label.text = result["output"]
+		
+		command_label.text = "Exit Code: " + str(result["exit_code"])
 
 # Select one of the pre made themes for testing(Only fonts for now)
 func _on_option_button_font_item_selected(index) -> void:
@@ -66,8 +73,8 @@ func _on_thread_button_pressed() -> void:
 func run_thread_command(command: String, parameters: Array, console: bool) -> void:
 	var result = await classFunctions.run_command_in_thread(command, parameters, console)
 	if result != null:
-		$Main_TabContainer/SETTINGS/ScrollContainer/DisplayRichTextLabel.text = result["output"]
-		$Main_TabContainer/SETTINGS/CommandExitLabel.text = "Exit Code: " + str(result["exit_code"])
+		richtext_label.text = result["output"]
+		command_label.text = "Exit Code: " + str(result["exit_code"])
 
 func _on_item_list_item_selected(index) -> void:
 	match $"Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList".get_item_text(index):

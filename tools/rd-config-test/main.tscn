@@ -122,6 +122,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="DisplayRichTextLabel" type="RichTextLabel" parent="Main_TabContainer/SETTINGS/ScrollContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_vertical = 3
@@ -136,6 +137,7 @@ selection_enabled = true
 metadata/_edit_use_anchors_ = true
 
 [node name="CommandExitLabel" type="Label" parent="Main_TabContainer/SETTINGS"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 42.0
 offset_top = 632.0

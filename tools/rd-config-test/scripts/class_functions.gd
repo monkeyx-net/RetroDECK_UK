@@ -1,5 +1,4 @@
-extends Control
-class_name ClassFunctions
+class_name ClassFunctions extends Control
 
 # This should be looked at again when GoDot 4.3 ships as has new OS.execute_with_pipe
 
