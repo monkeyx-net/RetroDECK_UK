@@ -58,3 +58,6 @@ func process_url_image(body) -> Texture:
 	image.load_png_from_buffer(body)
 	var texture = ImageTexture.create_from_image(image)
 	return texture
+
+func launch_help(url: String) -> void:
+	OS.shell_open(url)

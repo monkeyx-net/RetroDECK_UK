@@ -8,9 +8,14 @@ extends Control
 	# Basic thread function added. More work required. Thread pool?
 @onready var image_display = $ImageDisplay
 @onready var http_request = $HTTPRequest
-@onready var classFunctions: ClassFunctions
+
+var classFunctions: ClassFunctions
+var main_tabcontainer : TabContainer
+var tab_settings: TabBar
 var command_label : Label
 var richtext_label :RichTextLabel
+var emu_optionbutton : OptionButton
+var action_optionbutton: OptionButton
 
 func _ready() -> void:
 	$Main_TabContainer/SETTINGS.grab_focus()
@@ -30,8 +35,12 @@ func _process(delta):
 		$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value=0
 
 func _get_nodes() -> void:
+	main_tabcontainer = get_node("%Main_TabContainer")
+	tab_settings = get_node("%SETTINGS")
 	command_label = get_node("%CommandExitLabel")
 	richtext_label = get_node("%DisplayRichTextLabel")
+	emu_optionbutton = get_node("%EmulatorsOptionButton")
+	action_optionbutton = get_node("%ActionsOptionButton")
 
 func _on_command_button_pressed() -> void:
 	var command = "ls" #"find"
@@ -54,13 +63,48 @@ func _on_option_button_font_item_selected(index) -> void:
 			custom_theme = preload("res://themes/akrobat_theme.tres")
 		3:
 			custom_theme = preload("res://themes/dyslexia_theme.tres")
-	$Main_TabContainer.theme = custom_theme
+	main_tabcontainer.theme = custom_theme
 
 # Make into function with string etc
 func _on_emulator_button_pressed() -> void:
-	OS.shell_open("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/retroarch/retroarch-guide/")
+	# Add cceck for confirmation dialugue true
+	var selected_item_1 = emu_optionbutton.get_item_text(emu_optionbutton.selected)
+	var selected_item_2 = action_optionbutton.get_item_text(action_optionbutton.selected)
+	print (selected_item_1, selected_item_2)
+	match selected_item_1:
+		"Select Emulator":
+			print ("Call pick valid option")
+		"RetroArch":
+			match selected_item_2:
+				"Pick Action":
+					print ("Call pick valid option")
+				"Help":
+					print ("Call Help Function")
+					classFunctions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/retroarch/retroarch-guide/")
+				"Launch":
+					print ("Call Launch Function/Dialogue")
+				"Reset":
+					print ("Call Reset Function/Dialogue")
+				_:
+					print ("Call pick valid option")
+		"MAME":
+			match selected_item_2:
+				"Pick Action":
+					print ("Call pick valid option")
+				"Help":
+					print ("Call Help Function")
+					classFunctions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/mame/mame-guide/")
+				"Launch":
+					print ("Call Launch Function/Dialogue")
+				"Reset":
+					print ("Call Reset Function/Dialogue")
+				_:
+					print ("Call pick valid option")
+			
+			print ("Call pick valid option")
+	#dialgue todo	
 	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.visible=true
-	#var something = "\n\n" + $Main_TabContainer/SETTINGS.get_tab_title($Main_TabContainer/SETTINGS.current_tab) + " - "
+	#var something = "\n\n" + tab_settings.get_tab_title(tab_settings.current_tab) + " - "
 	#something +=  $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text + "!"
 	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
 	
@@ -91,12 +135,12 @@ func _on_item_list_item_selected(index) -> void:
 
 
 func _on_confirmation_dialog_confirmed() -> void:
-	OS.execute("../../tools/retrodeck_function_wrapper.sh", ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/OptionButton.text])
+	OS.execute("../../tools/retrodeck_function_wrapper.sh", ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text])
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 	OS.execute("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 
 func update_progress_bar() -> void:
-	$Main_TabContainer/SETTINGS/OptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
+	$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
 	await get_tree().create_timer(1.0).timeout # wait for 1 second
 
 func _on_http_request_request_completed(_result, _response_code, _headers, body) -> void:

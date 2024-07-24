@@ -26,6 +26,7 @@ theme = ExtResource("1_85rhp")
 script = ExtResource("1_lcrip")
 
 [node name="Main_TabContainer" type="TabContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
 anchor_right = 0.996121
 anchor_bottom = 0.381081
@@ -37,6 +38,7 @@ clip_tabs = false
 drag_to_rearrange_enabled = true
 
 [node name="SETTINGS" type="TabBar" parent="Main_TabContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tab_count = 2
 drag_to_rearrange_enabled = true
@@ -45,32 +47,40 @@ tab_0/title = "OPEN EMULATOR"
 tab_1/title = "RESET EMULATOR"
 
 [node name="EmulatorsOptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS"]
+unique_name_in_owner = true
 layout_mode = 2
-anchor_left = 0.0814558
-anchor_top = 1.45455
-anchor_right = 0.237435
-anchor_bottom = 2.45455
-offset_right = 1.52588e-05
+anchor_left = 0.0117005
+anchor_top = 1.6087
+anchor_right = 0.433697
+anchor_bottom = 2.6087
+offset_left = 8.0
+offset_top = -6.0
+offset_right = -49.0
+offset_bottom = -5.99997
 grow_horizontal = 2
-item_count = 3
+grow_vertical = 2
+item_count = 5
 selected = 0
 popup/item_0/text = "Select Emulator"
 popup/item_0/id = 0
 popup/item_0/disabled = true
 popup/item_0/separator = true
-popup/item_1/text = "RETROARCH"
+popup/item_1/text = "RetroArch"
 popup/item_1/id = 1
 popup/item_2/text = "MAME"
 popup/item_2/id = 2
-metadata/_edit_use_anchors_ = true
+popup/item_3/text = "CEMU"
+popup/item_3/id = 3
+popup/item_4/text = "Dolphin"
+popup/item_4/id = 4
 
 [node name="EmulatorButton" type="Button" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 1.96787
-anchor_top = -0.130582
-anchor_right = 2.24073
-anchor_bottom = 1.21739
+anchor_left = 1.70675
+anchor_top = -0.17406
+anchor_right = 1.97961
+anchor_bottom = 1.17391
 offset_left = -1.52588e-05
 offset_top = 0.00674725
 offset_right = 0.059082
@@ -90,11 +100,12 @@ offset_bottom = 46.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_3y4tr")
 
 [node name="ActionsOptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS/EmulatorsOptionButton"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 277.0
-offset_top = -3.0
-offset_right = 462.0
-offset_bottom = 49.0
+offset_left = 534.0
+offset_top = -8.0
+offset_right = 719.0
+offset_bottom = 44.0
 item_count = 4
 selected = 0
 popup/item_0/text = "Pick Action"
@@ -143,7 +154,7 @@ offset_left = 42.0
 offset_top = 632.0
 offset_right = 369.0
 offset_bottom = 690.0
-text = "Exit Code:"
+text = "Exit Code:  "
 
 [node name="CommandButton" type="Button" parent="Main_TabContainer/SETTINGS/CommandExitLabel"]
 layout_mode = 0
