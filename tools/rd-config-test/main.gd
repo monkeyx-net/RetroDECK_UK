@@ -67,7 +67,7 @@ func _on_option_button_font_item_selected(index) -> void:
 
 # Make into function with string etc
 func _on_emulator_button_pressed() -> void:
-	# Add cceck for confirmation dialugue true
+	# Add check for confirmation dialugue true
 	var selected_item_1 = emu_optionbutton.get_item_text(emu_optionbutton.selected)
 	var selected_item_2 = action_optionbutton.get_item_text(action_optionbutton.selected)
 	print (selected_item_1, selected_item_2)
@@ -103,10 +103,10 @@ func _on_emulator_button_pressed() -> void:
 			
 			print ("Call pick valid option")
 	#dialgue todo	
-	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.visible=true
-	#var something = "\n\n" + tab_settings.get_tab_title(tab_settings.current_tab) + " - "
-	#something +=  $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text + "!"
-	#$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
+	$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.visible=true
+	var something = "\n\n" + tab_settings.get_tab_title(tab_settings.current_tab) + " - "
+	something +=  $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text + "!"
+	$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog.dialog_text= something
 	
 func _on_thread_button_pressed() -> void:
 	var command = "find"
@@ -135,9 +135,14 @@ func _on_item_list_item_selected(index) -> void:
 
 
 func _on_confirmation_dialog_confirmed() -> void:
-	OS.execute("../../tools/retrodeck_function_wrapper.sh", ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text])
+	var command = "../../tools/retrodeck_function_wrapper.sh"
+	var parameters = ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text]
+	var result: Dictionary = classFunctions.execute_command(command, parameters, false)
+	# add if not error?
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
-	OS.execute("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
+	command = "/home/tim/Applications/RetroArch-Linux-x86_64.AppImage"
+	parameters=[]
+	result = classFunctions.execute_command(command, parameters, false)
 
 func update_progress_bar() -> void:
 	$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
