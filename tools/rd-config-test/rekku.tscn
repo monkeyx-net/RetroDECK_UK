@@ -46,5 +46,5 @@ position = Vector2(1102, 217)
 scale = Vector2(0.304688, 0.380859)
 sprite_frames = SubResource("SpriteFrames_022a8")
 animation = &"idle"
-frame_progress = 0.918946
+frame_progress = 0.293649
 script = SubResource("GDScript_2d2gu")

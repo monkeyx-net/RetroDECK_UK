@@ -17,10 +17,12 @@ var command_label : Label
 var richtext_label :RichTextLabel
 var emu_optionbutton : OptionButton
 var action_optionbutton: OptionButton
+var window_dialogue: Window
 
 func _ready() -> void:
 	$Main_TabContainer/SETTINGS.grab_focus()
 	_get_nodes()
+	_connect_signals()
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
 	rekku.play("idle")
@@ -43,10 +45,16 @@ func _get_nodes() -> void:
 	richtext_label = get_node("%DisplayRichTextLabel")
 	emu_optionbutton = get_node("%EmulatorsOptionButton")
 	action_optionbutton = get_node("%ActionsOptionButton")
+	window_dialogue = get_node("%Window")
+	
+
+func _connect_signals() -> void:
+	window_dialogue.close_requested.connect(_on_close_window)
+	#window_dialogue.connect("close_requested", _on_close_window)
 
 func _on_command_button_pressed() -> void:
 	rekku.play("chat")
-	$Window.visible=true
+	window_dialogue.visible=true
 	var command = "ls" #"find"
 	var parameters = ["-ltr", "/tmp"] #["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)
@@ -144,7 +152,7 @@ func _on_confirmation_dialog_confirmed() -> void:
 	var result: Dictionary = classFunctions.execute_command(command, parameters, false)
 	# add if not error?
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
-	command = "/home/tim/Applications/RetroArch-Linux-x86_64.AppImage"
+	command = "  /home/tim/Applications/RetroArch-Linux-x86_64.AppImage"
 	parameters=[]
 	result = classFunctions.execute_command(command, parameters, false)
 
@@ -158,3 +166,7 @@ func _on_http_request_request_completed(_result, _response_code, _headers, body)
 func _on_achieve_button_pressed() -> void:
 	var url = "https://retroachievements.org/Badge/451988.png"
 	http_request.request(url)
+
+func _on_close_window() -> void:
+	window_dialogue.visible=false
+

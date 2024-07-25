@@ -277,6 +277,7 @@ expand_mode = 5
 position = Vector2(1154, 189)
 
 [node name="Window" type="Window" parent="."]
+unique_name_in_owner = true
 transparent_bg = true
 title = "Hurry Xargon!"
 initial_position = 1
