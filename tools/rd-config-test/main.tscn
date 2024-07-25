@@ -12,7 +12,7 @@ bg_color = Color(0, 0.729412, 0.0705882, 0.25098)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vw4r6"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="UI_Control" type="Control"]
+[node name="UI_Control" type="Control" node_paths=PackedStringArray("voice_options")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,6 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_85rhp")
 script = ExtResource("1_lcrip")
+voice_options = NodePath("VoiceOptionButton")
 
 [node name="Main_TabContainer" type="TabContainer" parent="."]
 unique_name_in_owner = true
@@ -295,6 +296,17 @@ Please save from me the
        EvIl mOnKeyX!"
 autowrap_mode = 2
 
+[node name="VoiceOptionButton" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 840.0
+offset_top = 549.0
+offset_right = 1258.0
+offset_bottom = 636.0
+item_count = 1
+popup/item_0/text = "Pick Langauge"
+popup/item_0/id = 0
+
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
 [connection signal="confirmed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/CommandExitLabel/CommandButton" to="." method="_on_command_button_pressed"]
@@ -303,3 +315,4 @@ autowrap_mode = 2
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/VBoxContainer/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="item_selected" from="VoiceOptionButton" to="." method="_on_voice_option_button_item_selected"]
