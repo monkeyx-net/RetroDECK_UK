@@ -8,6 +8,7 @@ extends Control
 	# Basic thread function added. More work required. Thread pool?
 @onready var image_display = $ImageDisplay
 @onready var http_request = $HTTPRequest
+@onready var rekku = $AnimatedSprite2D
 
 var classFunctions: ClassFunctions
 var main_tabcontainer : TabContainer
@@ -22,6 +23,7 @@ func _ready() -> void:
 	_get_nodes()
 	classFunctions = ClassFunctions.new()
 	add_child(classFunctions)
+	rekku.play("idle")
 	var file_path = "../../tools/configurator.sh"
 	var command = "sed -n '/local emulator_list=(/,/)/{s/.*local emulator_list=\\(.*\\)/\\1/; /)/q; p}' "
 	var emulator_list = classFunctions.get_text_file_from_system_path(file_path,command)
@@ -43,6 +45,8 @@ func _get_nodes() -> void:
 	action_optionbutton = get_node("%ActionsOptionButton")
 
 func _on_command_button_pressed() -> void:
+	rekku.play("chat")
+	$Window.visible=true
 	var command = "ls" #"find"
 	var parameters = ["-ltr", "/tmp"] #["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)

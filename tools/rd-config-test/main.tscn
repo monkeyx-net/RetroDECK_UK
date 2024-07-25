@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvdgrhu7v3bxb"]
+[gd_scene load_steps=8 format=3 uid="uid://cvdgrhu7v3bxb"]
 
 [ext_resource type="Theme" uid="uid://b82mjw53488jd" path="res://themes/pixel_theme.tres" id="1_85rhp"]
 [ext_resource type="Script" path="res://main.gd" id="1_lcrip"]
 [ext_resource type="Texture2D" uid="uid://brf74puvpnwsd" path="res://assets/graphics/retrodeck.png" id="3_h44dm"]
 [ext_resource type="Script" path="res://Retrodeck.gd" id="4_vatdb"]
+[ext_resource type="PackedScene" uid="uid://fau607ejbsuk" path="res://rekku.tscn" id="5_hvdhg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y4tr"]
 bg_color = Color(0, 0.729412, 0.0705882, 0.25098)
@@ -271,6 +272,27 @@ offset_bottom = 770.0
 expand_mode = 5
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="AnimatedSprite2D" parent="." instance=ExtResource("5_hvdhg")]
+position = Vector2(1154, 189)
+
+[node name="Window" type="Window" parent="."]
+transparent_bg = true
+title = "Hurry Xargon!"
+initial_position = 1
+size = Vector2i(400, 225)
+visible = false
+
+[node name="Label" type="Label" parent="Window"]
+custom_minimum_size = Vector2(375, 300)
+offset_right = 40.0
+offset_bottom = 36.0
+text = "
+
+Please save from me the 
+
+       EvIl mOnKeyX!"
+autowrap_mode = 2
 
 [connection signal="pressed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton" to="." method="_on_emulator_button_pressed"]
 [connection signal="confirmed" from="Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
