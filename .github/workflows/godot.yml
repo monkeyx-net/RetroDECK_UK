@@ -29,5 +29,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Test Zips
-          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/*.zip
+          name: Linux Test Zip
+          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/linux.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows Test Zip
+          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/windows.zip
