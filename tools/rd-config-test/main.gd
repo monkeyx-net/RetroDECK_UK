@@ -10,7 +10,6 @@ extends Control
 @onready var http_request = $HTTPRequest
 @onready var rekku = $AnimatedSprite2D
 
-@export var Voices: Array[Dictionary] = DisplayServer.tts_get_voices()
 
 var classFunctions: ClassFunctions
 var main_tabcontainer : TabContainer
@@ -20,13 +19,9 @@ var richtext_label :RichTextLabel
 var emu_optionbutton : OptionButton
 var action_optionbutton: OptionButton
 var window_dialogue: Window
-@export var voice_options: OptionButton
+
 
 func _ready() -> void:
-	for v in Voices:
-		if str(v["name"]).begins_with("English (Great Britain)"):
-			voice_options.add_item(v["name"])
-			
 	$Main_TabContainer/SETTINGS.grab_focus()
 	_get_nodes()
 	_connect_signals()
@@ -53,8 +48,6 @@ func _get_nodes() -> void:
 	emu_optionbutton = get_node("%EmulatorsOptionButton")
 	action_optionbutton = get_node("%ActionsOptionButton")
 	window_dialogue = get_node("%Window")
-	voice_options = get_node("%VoiceOptionButton")
-	
 
 func _connect_signals() -> void:
 	window_dialogue.close_requested.connect(_on_close_window)
@@ -177,14 +170,4 @@ func _on_achieve_button_pressed() -> void:
 
 func _on_close_window() -> void:
 	window_dialogue.visible=false
-
-
-func _on_voice_option_button_item_selected(index):
-	var test: String = "Watch out. Watch Out."
-	var test2: String = "There is a monkey about."
-	var VID: int = voice_options.get_selected_id()
-	var speaker: String = Voices[VID]["id"]
-	DisplayServer.tts_speak(test,speaker)
-	await get_tree().create_timer(1.5).timeout
-	DisplayServer.tts_speak(test2,speaker)
 
