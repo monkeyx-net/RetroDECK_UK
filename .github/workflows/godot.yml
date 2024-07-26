@@ -31,5 +31,5 @@ jobs:
         with:
           name: LinZip
           path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/linux.zip
-          name: Winzip
-          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/windows.zip
+          name1: Winzip
+          path1: /home/runner/work/RetroDECK_UK/RetroDECK_UK/windows.zip
