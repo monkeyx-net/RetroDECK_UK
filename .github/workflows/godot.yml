@@ -27,9 +27,7 @@ jobs:
           archive_output: true
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: LinZip
-          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/linux.zip
-          name1: Winzip
-          path1: /home/runner/work/RetroDECK_UK/RetroDECK_UK/windows.zip
+          name: Test Zips
+          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/*.zip
