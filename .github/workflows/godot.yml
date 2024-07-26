@@ -26,10 +26,10 @@ jobs:
           relative_export_path: ./
           archive_output: true
 
-      - name: create release
-        uses: ncipollo/release-action@v1.14.0
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generateReleaseNotes: true
-          tag: ${{ github.ref_name }}
-          artifacts: ${{ steps.export.outputs.archive_directory }}/*
+          name: LinZip
+          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/linux.zip
+          name: Winzip
+          path: /home/runner/work/RetroDECK_UK/RetroDECK_UK/windows.zip
