@@ -303,3 +303,4 @@ autowrap_mode = 2
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/ScrollContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
 [connection signal="item_selected" from="Main_TabContainer/TEST TAB/VBoxContainer/ThemeOptionButton" to="." method="_on_option_button_font_item_selected"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="close_requested" from="Window" to="." method="_on_close_window"]
