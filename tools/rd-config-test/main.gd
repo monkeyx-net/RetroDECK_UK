@@ -11,7 +11,6 @@ extends Control
 @onready var rekku = $AnimatedSprite2D
 
 
-var classFunctions: ClassFunctions
 var main_tabcontainer : TabContainer
 var tab_settings: TabBar
 var command_label : Label
@@ -25,12 +24,12 @@ func _ready() -> void:
 	$Main_TabContainer/SETTINGS.grab_focus()
 	_get_nodes()
 	_connect_signals()
-	classFunctions = ClassFunctions.new()
-	add_child(classFunctions)
+	#classFunctions = ClassFunctions.new()
+	#add_child(classFunctions)
 	rekku.play("idle")
 	var file_path = "../../tools/configurator.sh"
 	var command = "sed -n '/local emulator_list=(/,/)/{s/.*local emulator_list=\\(.*\\)/\\1/; /)/q; p}' "
-	var emulator_list = classFunctions.get_text_file_from_system_path(file_path,command)
+	var emulator_list = class_functions.get_text_file_from_system_path(file_path,command)
 	print(emulator_list)
 
 func _process(delta):
@@ -59,7 +58,7 @@ func _on_command_button_pressed() -> void:
 	var command = "ls" #"find"
 	var parameters = ["-ltr", "/tmp"] #["$HOME/", "-name", "es_systems.xml","-print"]
 	print (command ,parameters)
-	var result: Dictionary = classFunctions.execute_command(command, parameters, false)
+	var result: Dictionary = class_functions.execute_command(command, parameters, false)
 	if result != null:
 		richtext_label.text = result["output"]
 		
@@ -93,7 +92,7 @@ func _on_emulator_button_pressed() -> void:
 					print ("Call pick valid option")
 				"Help":
 					print ("Call Help Function")
-					classFunctions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/retroarch/retroarch-guide/")
+					class_functions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/retroarch/retroarch-guide/")
 				"Launch":
 					print ("Call Launch Function/Dialogue")
 				"Reset":
@@ -106,7 +105,7 @@ func _on_emulator_button_pressed() -> void:
 					print ("Call pick valid option")
 				"Help":
 					print ("Call Help Function")
-					classFunctions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/mame/mame-guide/")
+					class_functions.launch_help("https://retrodeck.readthedocs.io/en/latest/wiki_emulator_guides/mame/mame-guide/")
 				"Launch":
 					print ("Call Launch Function/Dialogue")
 				"Reset":
@@ -128,7 +127,7 @@ func _on_thread_button_pressed() -> void:
 	await run_thread_command(command, parameters, console)
 
 func run_thread_command(command: String, parameters: Array, console: bool) -> void:
-	var result = await classFunctions.run_command_in_thread(command, parameters, console)
+	var result = await class_functions.run_command_in_thread(command, parameters, console)
 	if result != null:
 		richtext_label.text = result["output"]
 		command_label.text = "Exit Code: " + str(result["exit_code"])
@@ -150,19 +149,19 @@ func _on_item_list_item_selected(index) -> void:
 func _on_confirmation_dialog_confirmed() -> void:
 	var command = "../../tools/retrodeck_function_wrapper.sh"
 	var parameters = ["log", "i", "Configurator: " + $Main_TabContainer/SETTINGS/EmulatorsOptionButton.text]
-	var result: Dictionary = classFunctions.execute_command(command, parameters, false)
+	var result: Dictionary = class_functions.execute_command(command, parameters, false)
 	# add if not error?
 	#OS.create_process("/home/tim/Applications/RetroArch-Linux-x86_64.AppImage",[])
 	command = "  /home/tim/Applications/RetroArch-Linux-x86_64.AppImage"
 	parameters=[]
-	result = classFunctions.execute_command(command, parameters, false)
+	result = class_functions.execute_command(command, parameters, false)
 
 func update_progress_bar() -> void:
 	$Main_TabContainer/SETTINGS/EmulatorsOptionButton/EmulatorButton/ConfirmationDialog/ProgressBar.value += 1  #Button is pressed, increase the progress
 	await get_tree().create_timer(1.0).timeout # wait for 1 second
 
 func _on_http_request_request_completed(_result, _response_code, _headers, body) -> void:
-	image_display.texture = classFunctions.process_url_image(body)
+	image_display.texture = class_functions.process_url_image(body)
 
 func _on_achieve_button_pressed() -> void:
 	var url = "https://retroachievements.org/Badge/451988.png"
