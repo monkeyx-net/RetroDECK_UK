@@ -8,6 +8,7 @@ on:
 
 # manually run to help with version number/tag and sha256 value
   workflow_dispatch:
+    branches: [ cooker ]
 
 env:
   GODOT_VERSION: 4.2.2
