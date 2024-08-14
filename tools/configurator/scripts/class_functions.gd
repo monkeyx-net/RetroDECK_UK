@@ -141,3 +141,54 @@ func parse_config_to_json(file_path: String) -> Dictionary:
 	
 	file.close()
 	return config
+	
+# Method to load and parse the JSON file
+func load_json(file_path: String) -> Dictionary:
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file:
+		var json_string = file.get_as_text()
+		file.close()
+		
+		var json = JSON.new()        
+		var parsed_json = json.parse_string(json_string)
+		if parsed_json:
+			return parsed_json
+		else:
+			print("JSON parse error: ", json.error_string)
+	else:
+		print("Unable to open file: ", file_path)
+	return {}
+
+func parse_data(element_key: String, element: Dictionary) -> Dictionary:
+	var parsed_data: Dictionary = {}
+	for key in element.keys():
+		var value = element.get(key, {})
+		if typeof(value) == TYPE_DICTIONARY:
+			var about_link = AboutLink.new()
+			about_link.description = value.get("description", "")
+			about_link.name = value.get("name", "")
+			about_link.url = value.get("url", "")		
+			# Store the SiteLink properties in the dictionary
+			parsed_data[key] = {
+				"description": about_link.description,
+				"name": about_link.name,
+				"url": about_link.url
+			}
+		else:
+			parsed_data[key] = value
+	return parsed_data
+	
+func parse_data2(about_links: Dictionary, key: String) -> AboutLink:
+	var link_data = about_links.get(key, {})
+	var site_link = AboutLink.new()
+	site_link.description = link_data.get("description", "")
+	site_link.name = link_data.get("name", "")
+	site_link.url = link_data.get("url", "")
+	return site_link
+
+
+# assign values to buttons here?		
+func print_properties(link: AboutLink):
+	print("Description: %s" % link.description)
+	print("Name: %s" % link.name)
+	print("URL: %s" % link.url)

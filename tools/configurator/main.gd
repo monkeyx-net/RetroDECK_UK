@@ -18,12 +18,45 @@ var rd_logs: String
 var rd_version: String
 var gc_version: String
 
+
+var json_file_path: String
+@export var json_data: Dictionary
+var about_links = {}
+
 func _ready():
 	_get_nodes()
 	_connect_signals()
 	_play_main_animations()
-
 	
+	
+	json_file_path = "../../config/retrodeck/reference_lists/features.json"
+	
+	json_data = class_functions.load_json(json_file_path)
+	
+	# Array/Dict of items, try json to class gist?
+	var about_links_data = class_functions.parse_data("about_links", json_data.get("about_links", {}))
+	#var contact_us_data = class_functions.parse_data("about_links", json_data.get(rd_contactus", {}))
+	var rd_contactus = class_functions.parse_data2(about_links_data, "rd_contactus")
+		
+	print("About Links Data: %s" % str(about_links_data))
+	print("Contact Us Data: %s" % str(rd_contactus))
+	class_functions.print_properties(rd_contactus)
+
+	# Use this with loop?
+	if json_data:
+		# Parse "about_links"
+		if json_data.has("about_links"):
+			for key in json_data["about_links"].keys():
+				var link_data = json_data["about_links"][key]
+				var about_link = AboutLink.new()
+				about_link.description = link_data["description"]
+				about_link.name = link_data["name"]
+				about_link.url = link_data["url"]
+				about_links[key] = about_link
+				print (about_link.name)
+	
+	
+
 	$Background/locale_option.selected = class_functions.map_locale_id(OS.get_locale_language())
 	var console: bool = false
 	var test = class_functions.execute_command("cat",["/var/config/retrodeck/retrodeck.cfg"],console)
