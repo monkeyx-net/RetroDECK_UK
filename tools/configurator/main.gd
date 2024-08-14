@@ -47,6 +47,7 @@ func _ready():
 		# Parse "about_links"
 		if json_data.has("about_links"):
 			for key in json_data["about_links"].keys():
+				# Add match here for populating or amend print properties above for one at time
 				var link_data = json_data["about_links"][key]
 				var about_link = AboutLink.new()
 				about_link.description = link_data["description"]
