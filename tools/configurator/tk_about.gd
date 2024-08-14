@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Control
 
 #var class_functions: ClassFunctions
 
@@ -11,39 +11,12 @@ var contactus_button: Button
 var licenses_button: Button
 #var tk_about: Dictionary
 #signal signal_theme_changed
-var app_data = AppData.new()
 
 func _ready():
 	#tk_about = class_functions.import_csv_data("res://tk_about.txt")
-	app_data =  data_handler.load_base_data()
 	_get_nodes()
 	_connect_signals()
 	
-	for id in app_data.about_links:
-		var web_data = app_data.about_links[id]
-		match id:
-			"rd_web":
-				%website_button.tooltip_text = web_data.description
-				%website_button.editor_description = web_data.url
-			"rd_changelog":
-				%changelog_button.tooltip_text = web_data.description
-				%changelog_button.editor_description = web_data.url
-			"rd_wiki":
-				%wiki_button.tooltip_text = web_data.description
-				%wiki_button.editor_description = web_data.url
-			"rd_credits":
-				%credits_button.tooltip_text = web_data.description
-				%credits_button.editor_description = web_data.url
-			"rd_donate":
-				%donate_button.tooltip_text = web_data.description
-				%donate_button.editor_description = web_data.url
-			"rd_contactus":
-				%contactus_button.tooltip_text = web_data.description
-				%contactus_button.editor_description = web_data.url
-			"rd_licenses":
-				%licenses_button.tooltip_text = web_data.description
-				%licenses_button.editor_description = web_data.url
-
 
 func _get_nodes() -> void:
 	website_button = get_node("%website_button")

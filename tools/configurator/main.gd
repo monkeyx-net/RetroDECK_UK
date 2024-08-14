@@ -18,31 +18,19 @@ var rd_logs: String
 var rd_version: String
 var gc_version: String
 
-var app_data = AppData.new()
 func _ready():
 	_get_nodes()
 	_connect_signals()
 	_play_main_animations()
 
-	data_handler.add_emaultor()
-	data_handler.modify_emulator_test()
 	
 	$Background/locale_option.selected = class_functions.map_locale_id(OS.get_locale_language())
-	"""
-	# load json data
-	#app_data = data_handler.load_data()
-		#test to show some data
-	if app_data:
-		var website_data = app_data.about_links["rd_web"]
-		print (website_data.name,"-",website_data.url,"-",website_data.description)
-	"""
 	var console: bool = false
 	var test = class_functions.execute_command("cat",["/var/config/retrodeck/retrodeck.cfg"],console)
 	#print (test)
 	var config_file_path = "/var/config/retrodeck/retrodeck.cfg"
 	var json_file_path = "/var/config/retrodeck/retrodeck.json"
-	var config = data_handler.parse_config_to_json(config_file_path)
-	data_handler.config_save_json(config, json_file_path)
+	var config = class_functions.parse_config_to_json(config_file_path)
 	rd_logs = config["paths"]["logs_folder"]
 	rd_version = config["version"]
 	gc_version = ProjectSettings.get_setting("application/config/version")
