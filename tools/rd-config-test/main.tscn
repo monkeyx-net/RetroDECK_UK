@@ -35,17 +35,19 @@ offset_right = -2.0
 offset_bottom = -39.0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 42
+current_tab = 0
 clip_tabs = false
 drag_to_rearrange_enabled = true
 
 [node name="SETTINGS" type="TabBar" parent="Main_TabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-tab_count = 2
 drag_to_rearrange_enabled = true
 tabs_rearrange_group = 0
+tab_count = 2
 tab_0/title = "OPEN EMULATOR"
 tab_1/title = "RESET EMULATOR"
+metadata/_tab_index = 0
 
 [node name="EmulatorsOptionButton" type="OptionButton" parent="Main_TabContainer/SETTINGS"]
 unique_name_in_owner = true
@@ -60,10 +62,9 @@ offset_right = -49.0
 offset_bottom = -5.99997
 grow_horizontal = 2
 grow_vertical = 2
-item_count = 5
 selected = 0
+item_count = 5
 popup/item_0/text = "Select Emulator"
-popup/item_0/id = 0
 popup/item_0/disabled = true
 popup/item_0/separator = true
 popup/item_1/text = "RetroArch"
@@ -107,10 +108,9 @@ offset_left = 534.0
 offset_top = -8.0
 offset_right = 719.0
 offset_bottom = 44.0
-item_count = 4
 selected = 0
+item_count = 4
 popup/item_0/text = "Pick Action"
-popup/item_0/id = 0
 popup/item_0/disabled = true
 popup/item_0/separator = true
 popup/item_1/text = "Help"
@@ -181,10 +181,21 @@ offset_right = 884.0
 offset_bottom = 55.0
 text = "Achieve"
 
+[node name="ProgressBar" type="ProgressBar" parent="Main_TabContainer/SETTINGS"]
+visible = false
+layout_mode = 0
+offset_left = 188.0
+offset_top = 212.0
+offset_right = 788.0
+offset_bottom = 356.0
+indeterminate = true
+editor_preview_indeterminate = false
+
 [node name="TEST TAB" type="TabBar" parent="Main_TabContainer"]
 visible = false
 layout_mode = 2
 tabs_rearrange_group = 1
+metadata/_tab_index = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Main_TabContainer/TEST TAB"]
 custom_minimum_size = Vector2(0, 275)
@@ -218,10 +229,9 @@ offset_left = 429.0
 offset_top = -7.0
 offset_right = 1277.0
 offset_bottom = 48.0
-item_count = 3
 selected = 0
+item_count = 3
 popup/item_0/text = "SET PRESETS"
-popup/item_0/id = 0
 popup/item_0/disabled = true
 popup/item_0/separator = true
 popup/item_1/text = "RETRODECK PRESETS"
@@ -237,14 +247,13 @@ offset_bottom = 272.0
 
 [node name="ThemeOptionButton" type="OptionButton" parent="Main_TabContainer/TEST TAB/VBoxContainer"]
 layout_mode = 2
-item_count = 4
 selected = 0
+item_count = 4
 popup/item_0/text = "CHANGE FONT"
 popup/item_0/id = 3
 popup/item_0/disabled = true
 popup/item_0/separator = true
 popup/item_1/text = "Pixel Font"
-popup/item_1/id = 0
 popup/item_2/text = "Akrobat Font"
 popup/item_2/id = 1
 popup/item_3/text = "OpenDyslexic Font"

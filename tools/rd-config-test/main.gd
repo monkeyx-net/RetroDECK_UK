@@ -161,12 +161,16 @@ func update_progress_bar() -> void:
 	await get_tree().create_timer(1.0).timeout # wait for 1 second
 
 func _on_http_request_request_completed(_result, _response_code, _headers, body) -> void:
-	image_display.texture = class_functions.process_url_image(body)
+	#image_display.texture = class_functions.process_url_image(body)
+	print ("bob")
+	$Main_TabContainer/SETTINGS/ProgressBar.visible = false
 
 func _on_achieve_button_pressed() -> void:
-	var url = "https://retroachievements.org/Badge/451988.png"
+	#var url = "https://retroachievements.org/Badge/451988.png"
+	var url = "https://buildbot.libretro.com/nightly/linux/x86_64/RetroArch_cores.7z"
+	http_request.download_file = "bob.7z"
 	http_request.request(url)
+	$Main_TabContainer/SETTINGS/ProgressBar.visible = true
 
 func _on_close_window() -> void:
 	window_dialogue.visible=false
-
